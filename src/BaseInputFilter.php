@@ -522,6 +522,10 @@ class BaseInputFilter implements
 
             $value = $this->data[$name];
 
+            if( is_string($this->data[$name]) && !preg_match('//u', $this->data[$name])){
+                $value = null;
+            }
+
             if ($input instanceof InputFilterInterface) {
                 $input->setData($value);
                 continue;

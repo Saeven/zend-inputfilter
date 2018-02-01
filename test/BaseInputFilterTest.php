@@ -65,6 +65,15 @@ class BaseInputFilterTest extends TestCase
         $inputFilter->get('not exists');
     }
 
+    public function testProtectsAgainstMalformedUTF8()
+    {
+        $inputFilter = $this->inputFilter;
+        $inputFilter->add(new Input('foo'), 'foo');
+        $inputFilter->setData(['foo' => "\xc3\x28"]);
+        self::assertNull($inputFilter->getValue('foo'));
+
+    }
+
     public function testReplaceWithInvalidInputTypeThrowsInvalidArgumentException()
     {
         $inputFilter = $this->inputFilter;
